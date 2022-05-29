@@ -23,7 +23,7 @@ router.post('/shorturl',authenticate, async function(req, res, next) {
       let userID = user.id
       let num = Math.floor(Math.random() * 3) + 6;
       let short = Math.random().toString(20).substr(2, num);
-      let shortURL = `http://127.0.0.1/short/${short}`
+      let shortURL = `https://newsbyte.herokuapp.com/short/${short}`
       let longURL = req.body.url
       await db.collection("urls").insertOne({
           short,shortURL,longURL,
