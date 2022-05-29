@@ -104,31 +104,6 @@ router.get('/reset/:userid/:reset_string', async function(req, res, next) {
   }
 });
 
-router.get('/activate/:activationKey', async function(req, res, next) {
-  let client;
-  try{
-    client = await mongodClient.connect(url)
-    let db = client.db("shortener")
-    let user = await db.collection("users").findOne({activationKey:req.params.activationKey})
-    if(user){
-      await db.collection("users").findOneAndUpdate({activationKey:req.params.activationKey},{$set:{activated:true}})
-      await db.collection("users").updateOne({activationKey:req.params.activationKey},{$unset:{activationKey:1}})
-      res.json({
-        message:"Successfully Activated You can login"
-      })
-    }else{
-      client.close()
-      res.status(404).json({
-        message:"Invalid URL"
-      })
-    }
-    
-    }catch(error){
-      client.close()
-      console.log(error)
-  }
-});
-
 router.post('/reset_password', async function(req, res, next) {
   let client;
   try{

@@ -15,10 +15,8 @@ router.post('/', async function(req, res, next) {
   try{
     client = await mongodClient.connect(url)
     let db = client.db("shortener")
-    console.log(req.body)
     let {email,password} = req.body
-    let activated = false
-    let activationKey = Math.random().toString(20).substr(2, 15);
+    let activated = true
     let user = await db.collection("users").findOne({email: email});
     if(user){
       res.json({
@@ -31,12 +29,8 @@ router.post('/', async function(req, res, next) {
       await db.collection("users").insertOne({
         email,
         password,
-        activated,
-        activationKey
+        activated
       })
-      let activation_url = `https://newsbyte.herokuapp.com/activate/${activationKey}`
-      let email_data = `This is the link for activating your account ${activation_url}`
-      await sendEmail(email,"Account Activation",email_data)
       res.json({
           message:"Registration Successful check your Email for activation link"
       })
