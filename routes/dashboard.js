@@ -29,9 +29,9 @@ router.get('/data',authenticate,async function(req,res,){
                         let eachURL = await db.collection("urls").findOne({short:each})
                         let longURL = eachURL.longURL
                         let shortURL = eachURL.shortURL
-                        let count = eachURL.count
+                        let visited = eachURL.visited
                         Outdata.push({
-                            longURL,shortURL,count
+                            longURL,shortURL,visited
                         })
                     }else{
                         // pass
