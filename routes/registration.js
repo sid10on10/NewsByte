@@ -32,7 +32,7 @@ router.post('/', async function(req, res, next) {
         activated
       })
       res.json({
-        message:"Registration Successful check your Email for activation link"
+        message:"Registration Successful You can login now"
       })
       client.close()
     }
