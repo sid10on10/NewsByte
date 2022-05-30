@@ -13,9 +13,9 @@ router.get('/:shorturl',async function(req,res,){
       let db = client.db("shortener")
       let short = req.params.shorturl
       let data = await db.collection("urls").findOne({short})
-      if(data){
+      if(!data.visited){
         let longurl = data.longURL
-        await db.collection("urls").findOneAndDelete({short})
+        await db.collection("urls").findOneAndUpdate({short},{$set:{visited:true}})
         res.redirect(longurl)
       }else{
         res.write("<h1>Url already visited once or invalid short url.</h1>");

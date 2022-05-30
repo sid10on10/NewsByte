@@ -25,8 +25,9 @@ router.post('/shorturl',authenticate, async function(req, res, next) {
       let short = Math.random().toString(20).substr(2, num);
       let shortURL = `https://newsbyte.herokuapp.com/short/${short}`
       let longURL = req.body.url
+      let visited = false
       await db.collection("urls").insertOne({
-          short,shortURL,longURL,
+          short,shortURL,longURL,visited,
       })
       await db.collection("users").findOneAndUpdate({_id:mongodb.ObjectId(userID)},{$push:{urls:short}})
       res.json({
